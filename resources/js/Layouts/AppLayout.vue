@@ -112,6 +112,10 @@
                                             API Tokens
                                         </jet-dropdown-link>
 
+                                        <jet-dropdown-link :href="route('friends.index')">
+                                            Friends
+                                        </jet-dropdown-link>
+
                                         <div class="border-t border-gray-100"></div>
 
                                         <!-- Authentication -->
@@ -161,6 +165,10 @@
                         <div class="mt-3 space-y-1">
                             <jet-responsive-nav-link :href="route('profile.show')" :active="route().current('profile.show')">
                                 Profile
+                            </jet-responsive-nav-link>
+
+                            <jet-responsive-nav-link :href="route('friends.index')">
+                                Friends
                             </jet-responsive-nav-link>
 
                             <jet-responsive-nav-link :href="route('api-tokens.index')" :active="route().current('api-tokens.index')" v-if="$page.props.jetstream.hasApiFeatures">
@@ -249,7 +257,7 @@
 
         data() {
             return {
-                showingNavigationDropdown: false,
+                showingNavigationDropdown: false
             }
         },
 

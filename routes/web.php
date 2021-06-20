@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\FriendsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,3 +29,18 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+
+# Friends
+Route::prefix('/friends')->middleware(['auth:sanctum', 'verified'])->name('friends.')->group(function() {
+    Route::get('/', [
+        FriendsController::class,
+        'index'
+    ])->name('index');
+
+    Route::delete('/{friend}/delete', [
+        FriendsController::class,
+        'delete'
+    ])->name('delete');
+});
+
+

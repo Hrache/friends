@@ -10,6 +10,8 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\Friend;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -25,6 +27,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'surname',
         'email',
         'password',
     ];
@@ -47,6 +50,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
         'email_verified_at' => 'datetime',
     ];
 
@@ -58,4 +63,20 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Friends
+     */
+    public function friends()
+    {
+        return $this->hasMany(Friend::class, 'user_id')->where('status', 'approved');
+    }
+
+    /**
+     * Friends to
+     */
+    public function friendsTo()
+    {
+        return $this->hasMany(Friend::class, 'friend_id')->where('status', 'approved')->with('by_user');
+    }
 }
