@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\FriendsController;
+use App\Http\Controllers\SearchFindController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,10 +38,21 @@ Route::prefix('/friends')->middleware(['auth:sanctum', 'verified'])->name('frien
         'index'
     ])->name('index');
 
+    Route::post('/store', [
+        FriendsController::class,
+        'store'
+    ])->name('store');
+
     Route::delete('/{friend}/delete', [
         FriendsController::class,
         'delete'
     ])->name('delete');
+});
+
+# Search
+Route::prefix('/search')->name('search.')->group(function() {
+    Route::post('/people', [SearchFindController::class, 'searchPeople'])->name('people');
+    Route::get('/friend', [SearchFindController::class, 'searchFriend'])->name('friend');
 });
 
 
