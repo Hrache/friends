@@ -69,7 +69,7 @@ class User extends Authenticatable
      */
     public function friends()
     {
-        return $this->hasMany(Friend::class, 'user_id')->where('status', 'approved');
+        return $this->hasMany(Friend::class, 'user_id')->where('status', Friend::STATUS_APPROVED);
     }
 
     /**
@@ -77,6 +77,22 @@ class User extends Authenticatable
      */
     public function friendsTo()
     {
-        return $this->hasMany(Friend::class, 'friend_id')->where('status', 'approved')->with('by_user');
+        return $this->hasMany(Friend::class, 'friend_id')->where('status', Friend::STATUS_APPROVED);
+    }
+
+    /**
+     * Pending
+     */
+    public function pending()
+    {
+        return $this->hasMany(Friend::class, 'user_id')->where('status', Friend::STATUS_PENDING);
+    }
+
+    /**
+     * Pending
+     */
+    public function pendingBy()
+    {
+        return $this->hasMany(Friend::class, 'friend_id')->where('status', Friend::STATUS_PENDING);
     }
 }

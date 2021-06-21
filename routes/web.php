@@ -32,21 +32,13 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 # Friends
-Route::prefix('/friends')->middleware(['auth:sanctum', 'verified'])->name('friends.')->group(function() {
-    Route::get('/', [
-        FriendsController::class,
-        'index'
-    ])->name('index');
-
-    Route::post('/store', [
-        FriendsController::class,
-        'store'
-    ])->name('store');
-
-    Route::delete('/{friend}/delete', [
-        FriendsController::class,
-        'delete'
-    ])->name('delete');
+Route::prefix('/friends')->name('friends.')->middleware(['auth:sanctum', 'verified'])->group(function() {
+    Route::get('/', [FriendsController::class, 'index'])->name('index');
+    Route::post('/store', [FriendsController::class, 'friendRequest'])->name('store');
+    Route::post('/check-friendship', [FriendsController::class, 'checkFriendship'])->name('check-friendship');
+    Route::delete('/{friend}/delete', [FriendsController::class, 'delete'])->name('delete');
+    Route::put('/reject', [FriendsController::class, 'reject'])->name('reject');
+    Route::put('/confirm', [FriendsController::class, 'confirm'])->name('confirm');
 });
 
 # Search
@@ -54,5 +46,3 @@ Route::prefix('/search')->name('search.')->group(function() {
     Route::post('/people', [SearchFindController::class, 'searchPeople'])->name('people');
     Route::get('/friend', [SearchFindController::class, 'searchFriend'])->name('friend');
 });
-
-

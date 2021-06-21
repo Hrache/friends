@@ -9,6 +9,14 @@ class Friend extends Model
 {
     use HasFactory;
 
+    const STATUS_PENDING = 'pending';
+    const STATUS_APPROVED = 'approved';
+    const STATUS_REJECTED = 'reject';
+
+    protected $fillable = [
+        'user_id', 'friend_id', 'status'
+    ];
+
     protected $table = "friends";
 
     public function user()

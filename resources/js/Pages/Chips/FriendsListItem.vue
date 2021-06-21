@@ -1,7 +1,5 @@
 <template>
     <li class="p-4 border rounded">
-        <h4>{{ friend.id }}</h4>
-
         <div class="text-xs">Name and surname</div>
         <strong class="mb-4">{{ getName() }} {{ getSurname() }}</strong>
 

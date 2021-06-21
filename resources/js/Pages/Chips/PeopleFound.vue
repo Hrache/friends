@@ -1,6 +1,6 @@
 <template>
     <ol v-if="people.length">
-        <Human :human="human" :friendurl="route('friends.store')" v-for="(human, key) in people" :key="key" />
+        <Human :human="human" :friendurl="route('friends.store')" :friendcheckurl="route('friends.check-friendship')" v-for="(human, key) in people" :key="key" />
     </ol>
     <h3 v-else>
         No people have been found "{{ searchQuery }}"

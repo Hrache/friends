@@ -2,6 +2,21 @@
 <template>
     <app-layout>
         <template #header>
+            <section class="p-2" v-if="pending && pending.length">
+                <FriendRequests
+                    :requests="pending"
+                    :confirmurl="route('friends.confirm-reject')"
+                    :rejecturl="route('friends.request-reject')"
+                />
+            </section>
+
+            <section class="p-2" v-if="pendingby && pendingby.length">
+                <FriendRequests
+                    :requests="pendingby"
+                    :confirmurl="route('friends.confirm-reject')"
+                    :rejecturl="route('friends.request-reject')"
+                />
+            </section>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Friends
             </h2>
@@ -34,12 +49,14 @@
     import AppLayout from '@/Layouts/AppLayout'
     import FriendsList from './Chips/FriendsList'
     import FriendsListItem from './Chips/FriendsListItem'
+    import FriendRequests from './Chips/FriendRequests'
 
     export default {
         components: {
             AppLayout,
             FriendsList,
-            FriendsListItem
+            FriendsListItem,
+            FriendRequests
         },
 
         data() {
@@ -50,9 +67,17 @@
 
         props: {
             friends: {
-                type: [Array, Number],
-                required: true
-            }
+                type: [Object, Array],
+                required: false
+            },
+            pending: {
+                type: [Object, Array],
+                required: false
+            },
+            pendingby: {
+                type: [Object, Array],
+                required: false
+            },
         },
 
         mounted() {
