@@ -10,19 +10,18 @@
         </template>
 
         <div class="pt-6">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-if="pending && pending.length">
                 <div class="py-1 flex justify-end">
-                    <span class="px-2 bg-red-700 text-white text-sm text-bold cursor-pointer" @click="togglePendings()">
+                    <span class="px-2 bg-red-700 text-white text-sm font-bold cursor-pointer" @click="togglePendings()">
                         <span v-show="pendings">Hide</span> <span v-show="!pendings">Show</span> pending requests
                     </span>
                 </div>
                 <div v-show="pendings" class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4 mb-4">
-
                     <section id="pendings" class="p-2" v-if="pending && pending.length">
                         <PendingRequest
                             v-for="(request, key) in pending" :key="key"
                             :request="request"
-                            :actionurl="route('friends.confirm')"
+                            :confirmurl="route('friends.confirm')"
                             :rejecturl="route('friends.reject')"
                         />
                     </section>
@@ -31,11 +30,14 @@
                         <PendingRequest
                             v-for="(request, key) in pendingby" :key="key"
                             :request="request"
-                            :actionurl="route('friends.confirm')"
+                            :confirmurl="route('friends.confirm')"
                             :rejecturl="route('friends.reject')"
                         />
                     </section>
                 </div>
+            </div>
+            <div class="text-gray-400 text-2xl font-bold max-w-7xl mx-auto sm:px-6 lg:px-8" v-else>
+                No pending requests
             </div>
         </div>
 
@@ -75,7 +77,7 @@
 
         data() {
             return {
-                pendings: false
+                pendings: true
             };
         },
 

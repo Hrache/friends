@@ -34,22 +34,23 @@ class FriendsController extends Controller
     public function confirm()
     {
         $validity = request()->validate([
-            'uac' => 'required|integer'
+            'frid' => 'required|integer'
         ]);
 
-        $friend = Friend::where('id', request()->uac)->with('user')->first();
+        $friend = Friend::where('id', request()->frid)->with('user')->first();
         $friend->status = Friend::STATUS_APPROVED;
 
         if ($friend->saveOrFail()) {
             $this->message = [
                 'success' => "Congratulations you've successfuly friended {$friend->user->name} {$friend->user->surname}"
             ];
-        }
-        else {
+        } else {
             $this->message = [
                 'failed' => "Failed to friend with {$friend->user->name} {$friend->user->surname}"
             ];
         }
+
+        return back()->with($this->message);
     }
 
     /**
@@ -58,7 +59,11 @@ class FriendsController extends Controller
      */
     public function reject()
     {
-        //
+        $validity = request()->validate([
+            'frid' => 'required|integer'
+        ]);
+
+
     }
 
     /**
@@ -76,10 +81,10 @@ class FriendsController extends Controller
         $newFriend->status = Friend::STATUS_PENDING;
 
         if (!$newFriend->save()) {
-            $this->message['failed'] = 'Failed to do friend request, try again.';
+            $this->message = ['failed' => 'Failed to do friend request, try again.'];
         }
         else {
-            $this->message['success'] = 'Your request have been sent successfuly.';
+            $this->message = ['success' => 'Your request have been sent successfuly.'];
         }
 
         return response()->json($this->message);
@@ -88,13 +93,12 @@ class FriendsController extends Controller
     public function delete($friend)
     {
         if (!Friend::whereId($friend)->first()->delete()) {
-            return back()->with([
-                'failure' => 'Could not unfriend'
-            ]);
+            $this->message = ['failed' => 'Could not unfriend'];
+        }
+        else {
+            $this->message = ['success' => 'The friend have been removed successfuly!'];
         }
 
-        return back()->with([
-            'success' => 'The friend have been removed successfuly!'
-        ]);
+        return back()->with($this->message);
     }
 }

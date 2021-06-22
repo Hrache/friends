@@ -32,11 +32,11 @@ export default {
     },
 
     methods: {
-        getName() {
+        getName: function() {
             return this.request.user_id === this.$page.props.user.id? this.request.user.name: this.request.by_user.name
         },
 
-        getSurname() {
+        getSurname: function() {
             return this.request.user_id === this.$page.props.user.id? this.request.user.surname: this.request.by_user.surname
         },
 
@@ -45,7 +45,7 @@ export default {
                 this.rejecturl, {
                     _token: this._token,
                     _method: 'PUT',
-                    uac: this.request.id
+                    frid: this.request.id
                 }
             );
         },
@@ -55,7 +55,7 @@ export default {
                 this.confirmurl, {
                     _token: this._token,
                     _method: 'PUT',
-                    uac: this.request.id
+                    frid: this.request.id
                 }
             );
         }

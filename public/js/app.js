@@ -19064,14 +19064,14 @@ __webpack_require__.r(__webpack_exports__);
       this.$inertia.post(this.rejecturl, {
         _token: this._token,
         _method: 'PUT',
-        uac: this.request.id
+        frid: this.request.id
       });
     },
     confirm: function confirm() {
       this.$inertia.post(this.confirmurl, {
         _token: this._token,
         _method: 'PUT',
-        uac: this.request.id
+        frid: this.request.id
       });
     }
   }
@@ -19150,7 +19150,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      pendings: false
+      pendings: true
     };
   },
   props: {
@@ -23092,6 +23092,7 @@ var _hoisted_3 = {
   "class": "pt-6"
 };
 var _hoisted_4 = {
+  key: 0,
   "class": "max-w-7xl mx-auto sm:px-6 lg:px-8"
 };
 var _hoisted_5 = {
@@ -23115,15 +23116,19 @@ var _hoisted_10 = {
   "class": "p-2"
 };
 var _hoisted_11 = {
-  "class": "pt-6"
+  key: 1,
+  "class": "text-gray-400 text-2xl font-bold max-w-7xl mx-auto sm:px-6 lg:px-8"
 };
 var _hoisted_12 = {
-  "class": "max-w-7xl mx-auto sm:px-6 lg:px-8"
+  "class": "pt-6"
 };
 var _hoisted_13 = {
-  "class": "bg-white overflow-hidden shadow-xl sm:rounded-lg p-4 mb-4"
+  "class": "max-w-7xl mx-auto sm:px-6 lg:px-8"
 };
 var _hoisted_14 = {
+  "class": "bg-white overflow-hidden shadow-xl sm:rounded-lg p-4 mb-4"
+};
+var _hoisted_15 = {
   key: 1,
   "class": "sm:p-2 text-2xl lg:p-4 md:p-4"
 };
@@ -23141,8 +23146,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [_hoisted_1, _hoisted_2];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
-        "class": "px-2 bg-red-700 text-white text-sm text-bold cursor-pointer",
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [$props.pending && $props.pending.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+        "class": "px-2 bg-red-700 text-white text-sm font-bold cursor-pointer",
         onClick: _cache[1] || (_cache[1] = function ($event) {
           return $options.togglePendings();
         })
@@ -23154,27 +23159,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_PendingRequest, {
           key: key,
           request: request,
-          actionurl: _ctx.route('friends.confirm'),
+          confirmurl: _ctx.route('friends.confirm'),
           rejecturl: _ctx.route('friends.reject')
         }, null, 8
         /* PROPS */
-        , ["request", "actionurl", "rejecturl"]);
+        , ["request", "confirmurl", "rejecturl"]);
       }), 128
       /* KEYED_FRAGMENT */
       ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.pendingby && $props.pendingby.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("section", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.pendingby, function (request, key) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_PendingRequest, {
           key: key,
           request: request,
-          actionurl: _ctx.route('friends.confirm'),
+          confirmurl: _ctx.route('friends.confirm'),
           rejecturl: _ctx.route('friends.reject')
         }, null, 8
         /* PROPS */
-        , ["request", "actionurl", "rejecturl"]);
+        , ["request", "confirmurl", "rejecturl"]);
       }), 128
       /* KEYED_FRAGMENT */
       ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.pendings]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [$props.friends.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_friends_list, {
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.pendings]])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_11, " No pending requests "))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [$props.friends.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_friends_list, {
         key: 0
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -23193,7 +23198,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1
         /* STABLE */
 
-      })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_14, " You have no friends yet "))])])])];
+      })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_15, " You have no friends yet "))])])])];
     }),
     _: 1
     /* STABLE */
