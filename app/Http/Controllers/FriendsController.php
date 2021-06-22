@@ -23,20 +23,33 @@ class FriendsController extends Controller
 
         return Inertia::render('Friends', [
             "friends" => $friends,
-            'pendingBy' => auth()->user()->pendingBy()->get(),
-            'pending' => auth()->user()->pending()->get()
+            'pending' => auth()->user()->pending()->with('user')->get(),
+            'pendingBy' => auth()->user()->pendingBy()->with('by_user')->get()
         ]);
     }
 
     /**
      * Confirm friend request
-     *
      */
     public function confirm()
     {
         $validity = request()->validate([
             'uac' => 'required|integer'
         ]);
+
+        $friend = Friend::where('id', request()->uac)->with('user')->first();
+        $friend->status = Friend::STATUS_APPROVED;
+
+        if ($friend->saveOrFail()) {
+            $this->message = [
+                'success' => "Congratulations you've successfuly friended {$friend->user->name} {$friend->user->surname}"
+            ];
+        }
+        else {
+            $this->message = [
+                'failed' => "Failed to friend with {$friend->user->name} {$friend->user->surname}"
+            ];
+        }
     }
 
     /**

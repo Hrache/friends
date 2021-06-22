@@ -1,22 +1,6 @@
-
 <template>
     <app-layout>
         <template #header>
-            <section class="p-2" v-if="pending && pending.length">
-                <FriendRequests
-                    :requests="pending"
-                    :confirmurl="route('friends.confirm-reject')"
-                    :rejecturl="route('friends.request-reject')"
-                />
-            </section>
-
-            <section class="p-2" v-if="pendingby && pendingby.length">
-                <FriendRequests
-                    :requests="pendingby"
-                    :confirmurl="route('friends.confirm-reject')"
-                    :rejecturl="route('friends.request-reject')"
-                />
-            </section>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Friends
             </h2>
@@ -25,7 +9,37 @@
             </p>
         </template>
 
-        <div class="py-12">
+        <div class="pt-6">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="py-1 flex justify-end">
+                    <span class="px-2 bg-red-700 text-white text-sm text-bold cursor-pointer" @click="togglePendings()">
+                        <span v-show="pendings">Hide</span> <span v-show="!pendings">Show</span> pending requests
+                    </span>
+                </div>
+                <div v-show="pendings" class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4 mb-4">
+
+                    <section id="pendings" class="p-2" v-if="pending && pending.length">
+                        <PendingRequest
+                            v-for="(request, key) in pending" :key="key"
+                            :request="request"
+                            :actionurl="route('friends.confirm')"
+                            :rejecturl="route('friends.reject')"
+                        />
+                    </section>
+
+                    <section class="p-2" v-if="pendingby && pendingby.length">
+                        <PendingRequest
+                            v-for="(request, key) in pendingby" :key="key"
+                            :request="request"
+                            :actionurl="route('friends.confirm')"
+                            :rejecturl="route('friends.reject')"
+                        />
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4 mb-4">
                     <friends-list v-if="friends.length">
@@ -49,19 +63,19 @@
     import AppLayout from '@/Layouts/AppLayout'
     import FriendsList from './Chips/FriendsList'
     import FriendsListItem from './Chips/FriendsListItem'
-    import FriendRequests from './Chips/FriendRequests'
+    import PendingRequest from './Chips/PendingRequest'
 
     export default {
         components: {
             AppLayout,
             FriendsList,
             FriendsListItem,
-            FriendRequests
+            PendingRequest
         },
 
         data() {
             return {
-
+                pendings: false
             };
         },
 
@@ -78,6 +92,12 @@
                 type: [Object, Array],
                 required: false
             },
+        },
+
+        methods: {
+            togglePendings: function() {
+                this.pendings = !this.pendings
+            }
         },
 
         mounted() {
