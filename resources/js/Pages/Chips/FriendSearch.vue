@@ -2,10 +2,10 @@
     <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg w-full p-4">
         <h3 class="text-center text-bold text-4xl mb-2">Search friends</h3>
 
-        <div class="grid grid-cols-12 rounded">
-            <input type="text" v-model="searchQuery" class="md:col-span-10 sm:col-spam-12" @keyup.enter="search()" />
-            <button @click="search()" class="bg-blue-500 text-white md:col-span-1 sm:col-span-6">Search</button>
-            <button @click="clean()" class="bg-red-500 text-white md:col-span-1 sm:col-span-6">Clean</button>
+        <div class="grid grid-cols-12 sm:grid-rows-2 md:grid-rows-1 lg:grid-rows-1">
+            <input type="text" v-model="searchQuery" class="col-span-8" @keyup.enter="search()" />
+            <button @click="search()" class="col-span-2 bg-blue-500 text-white">Search</button>
+            <button @click="clean()" class="col-span-2 bg-red-500 text-white">Clean</button>
         </div>
 
         <div class="p-4" v-if="friends && friends.length">

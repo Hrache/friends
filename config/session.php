@@ -33,7 +33,7 @@ return [
 
     'lifetime' => env('SESSION_LIFETIME', 120),
 
-    'expire_on_close' => false,
+    'expire_on_close' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -90,7 +90,7 @@ return [
     /*
     |--------------------------------------------------------------------------
     | Session Cache Store
-    |--------------------------------------------------------------------------
+    |-----------------------i---------------------------------------------------
     |
     | While using one of the framework's cache driven session backends you may
     | list a cache store that should be used for these sessions. This value

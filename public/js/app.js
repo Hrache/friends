@@ -22949,7 +22949,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 );
 
 var _hoisted_3 = {
-  "class": "grid grid-cols-12 rounded"
+  "class": "grid grid-cols-12 sm:grid-rows-2 md:grid-rows-1 lg:grid-rows-1"
 };
 var _hoisted_4 = {
   key: 0,
@@ -22967,7 +22967,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.searchQuery = $event;
     }),
-    "class": "md:col-span-10 sm:col-spam-12",
+    "class": "col-span-8",
     onKeyup: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
       return $options.search();
     }, ["enter"]))
@@ -22977,12 +22977,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[3] || (_cache[3] = function ($event) {
       return $options.search();
     }),
-    "class": "bg-blue-500 text-white md:col-span-1 sm:col-span-6"
+    "class": "col-span-2 bg-blue-500 text-white"
   }, "Search"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
     onClick: _cache[4] || (_cache[4] = function ($event) {
       return $options.clean();
     }),
-    "class": "bg-red-500 text-white md:col-span-1 sm:col-span-6"
+    "class": "col-span-2 bg-red-500 text-white"
   }, "Clean")]), $data.friends && $data.friends.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.friends, function (friend, key) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
       "class": "px-1 pt-1",
