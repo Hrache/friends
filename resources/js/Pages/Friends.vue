@@ -113,10 +113,6 @@
             togglePendings: function() {
                 this.pendings = !this.pendings
             }
-        },
-
-        mounted() {
-            //
         }
     }
 </script>

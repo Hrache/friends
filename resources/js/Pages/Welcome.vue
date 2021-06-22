@@ -19,10 +19,12 @@
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 w-full">
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg w-full p-4">
                 <h3 class="text-center text-bold text-4xl mb-2">People finder</h3>
+
                 <div class="grid grid-cols-12 rounded">
                     <button @click="search()" class="bg-green-500 text-white col-span-2">Search</button>
                     <input type="text" v-model="searchQuery" class="col-span-10" @keyup.enter="search()" />
                 </div>
+
                 <div class="p-4" v-show="results && results.length">
                     <PeopleFound :people="results" :search-query="searchQuery" />
                 </div>
@@ -112,13 +114,16 @@ export default {
     data() {
         return {
             searchQuery: "",
-            results: ""
+            results: {}
         }
     },
 
     methods: {
         search() {
-            if ( !this.searchQuery && window.confirm( 'Please enter what to search')) {
+            this.results = {}
+
+            if ( !this.searchQuery) {
+                window.confirm( 'Please enter what to search')
                 return false;
             }
 

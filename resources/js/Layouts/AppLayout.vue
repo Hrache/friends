@@ -275,8 +275,11 @@
             },
         },
 
-        mounted() {
-            this.$forceUpdate();
+        beforeMount() {
+            let self = this;
+            this.$nextTick(function() {
+                this.$forceUpdate();
+            });
         }
     }
 </script>

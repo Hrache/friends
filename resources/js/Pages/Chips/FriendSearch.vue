@@ -42,10 +42,12 @@ export default {
 
         clean: function() {
             this.searchQuery = '';
-            this.friends = null;
+            this.friends = {};
         },
 
         search() {
+            this.friends = {};
+
             if ( !this.searchQuery) {
                 window.confirm( 'Please enter what to search')
                 return false;

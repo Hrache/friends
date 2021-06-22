@@ -18339,8 +18339,11 @@ __webpack_require__.r(__webpack_exports__);
       this.$inertia.post(route('logout'));
     }
   },
-  mounted: function mounted() {
-    this.$forceUpdate();
+  beforeMount: function beforeMount() {
+    var self = this;
+    this.$nextTick(function () {
+      this.$forceUpdate();
+    });
   }
 });
 
@@ -18931,9 +18934,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     clean: function clean() {
       this.searchQuery = '';
-      this.friends = null;
+      this.friends = {};
     },
     search: function search() {
+      this.friends = {};
+
       if (!this.searchQuery) {
         window.confirm('Please enter what to search');
         return false;
@@ -19284,8 +19289,6 @@ __webpack_require__.r(__webpack_exports__);
     togglePendings: function togglePendings() {
       this.pendings = !this.pendings;
     }
-  },
-  mounted: function mounted() {//
   }
 });
 
@@ -19822,12 +19825,15 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       searchQuery: "",
-      results: ""
+      results: {}
     };
   },
   methods: {
     search: function search() {
-      if (!this.searchQuery && window.confirm('Please enter what to search')) {
+      this.results = {};
+
+      if (!this.searchQuery) {
+        window.confirm('Please enter what to search');
         return false;
       }
 
