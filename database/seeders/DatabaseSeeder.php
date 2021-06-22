@@ -26,6 +26,15 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10)
         ]);
 
+        DB::table('users')->insert([
+            'name'=> 'moder',
+            'surname' => 'moderson',
+            'email' => 'moder@mail.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$s81GeKgjaqqdUWCi24t9a.28CRlJz1nBI6qf3FVv8a5ohjT0rWAlG', // admin123
+            'remember_token' => Str::random(10)
+        ]);
+
         User::factory(10)->create();
 
         DB::table('friends')->insert([

@@ -10,15 +10,16 @@
         </template>
 
         <div class="pt-6">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-if="pending && pending.length">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-if="pending && pending.length || requested && requested.length">
                 <div class="py-1 flex justify-end">
                     <span class="px-2 bg-red-700 text-white text-sm font-bold cursor-pointer" @click="togglePendings()">
                         <span v-show="pendings">Hide</span> <span v-show="!pendings">Show</span> pending requests
                     </span>
                 </div>
+
                 <div v-show="pendings" class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4 mb-4">
-                    <section id="pendings" class="p-2" v-if="pending && pending.length">
-                        <PendingRequest
+                    <section v-if="pending && pending.length">
+                        <Pending
                             v-for="(request, key) in pending" :key="key"
                             :request="request"
                             :confirmurl="route('friends.confirm')"
@@ -26,18 +27,19 @@
                         />
                     </section>
 
-                    <section class="p-2" v-if="pendingby && pendingby.length">
-                        <PendingRequest
-                            v-for="(request, key) in pendingby" :key="key"
+                    <section v-if="requested && requested.length">
+                        <Requested
+                            v-for="(request, key) in requested" :key="key"
                             :request="request"
-                            :confirmurl="route('friends.confirm')"
-                            :rejecturl="route('friends.reject')"
+                            :cancelurl="route('friends.cancel', {
+                                'cancel': request.id
+                            })"
                         />
                     </section>
                 </div>
             </div>
             <div class="text-gray-400 text-2xl font-bold max-w-7xl mx-auto sm:px-6 lg:px-8" v-else>
-                No pending requests
+                No pending requests and requested
             </div>
         </div>
 
@@ -65,14 +67,16 @@
     import AppLayout from '@/Layouts/AppLayout'
     import FriendsList from './Chips/FriendsList'
     import FriendsListItem from './Chips/FriendsListItem'
-    import PendingRequest from './Chips/PendingRequest'
+    import Pending from './Chips/Pending'
+    import Requested from './Chips/Requested'
 
     export default {
         components: {
             AppLayout,
             FriendsList,
             FriendsListItem,
-            PendingRequest
+            Pending,
+            Requested
         },
 
         data() {
@@ -90,7 +94,7 @@
                 type: [Object, Array],
                 required: false
             },
-            pendingby: {
+            requested: {
                 type: [Object, Array],
                 required: false
             },

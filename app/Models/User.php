@@ -85,14 +85,14 @@ class User extends Authenticatable
      */
     public function pending()
     {
-        return $this->hasMany(Friend::class, 'user_id')->where('status', Friend::STATUS_PENDING);
+        return $this->hasMany(Friend::class, 'friend_id')->where('status', Friend::STATUS_PENDING);
     }
 
     /**
      * Pending
      */
-    public function pendingBy()
+    public function requested()
     {
-        return $this->hasMany(Friend::class, 'friend_id')->where('status', Friend::STATUS_PENDING);
+        return $this->hasMany(Friend::class, 'user_id')->where('status', Friend::STATUS_PENDING);
     }
 }

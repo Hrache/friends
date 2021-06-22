@@ -39,6 +39,7 @@ Route::prefix('/friends')->name('friends.')->middleware(['auth:sanctum', 'verifi
     Route::delete('/{friend}/delete', [FriendsController::class, 'delete'])->name('delete');
     Route::put('/reject', [FriendsController::class, 'reject'])->name('reject');
     Route::put('/confirm', [FriendsController::class, 'confirm'])->name('confirm');
+    Route::delete('/{cancel}/delete', [FriendsController::class, 'cancel'])->name('cancel');
 });
 
 # Search

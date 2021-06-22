@@ -1,25 +1,22 @@
 <template>
-    <section class="p-4">
-        <button type="button" class="button px-2 text-sm bg-red-500 text-white text-bold" @click.once="confirm()">Approve</button>
-        <button type="button" class="button px-2 text-sm bg-green-500 text-white text-bold" @click.once="reject()">Reject</button>
-        <span class="p-2">{{ getName() }}</span> <span class="p-2">{{ getSurname() }}</span>
+    <section class="pt-1">
+        <header class="py-1">
+            <span class="p-1">{{ getName() }}</span> <span class="p-1">{{ getSurname() }}</span>
+        </header>
+        <button type="button" class="button px-2 text-sm bg-green-500 text-white text-bold" @click.once="cancel()">Cancel</button>
     </section>
 </template>
 
 <script>
 export default {
-    name: "PendingRequests",
+    name: "Pending",
 
     props: {
         request: {
             type: [Object, Array],
             required: false
         },
-        rejecturl: {
-            type: String,
-            required: true
-        },
-        confirmurl: {
+        cancelurl: {
             type: String,
             required: true
         }
@@ -40,21 +37,11 @@ export default {
             return this.request.user_id === this.$page.props.user.id? this.request.user.surname: this.request.by_user.surname
         },
 
-        reject: function() {
+        cancel: function() {
             this.$inertia.post(
-                this.rejecturl, {
+                this.cancelurl, {
                     _token: this._token,
-                    _method: 'PUT',
-                    frid: this.request.id
-                }
-            );
-        },
-
-        confirm: function() {
-            this.$inertia.post(
-                this.confirmurl, {
-                    _token: this._token,
-                    _method: 'PUT',
+                    _method: 'DELETE',
                     frid: this.request.id
                 }
             );

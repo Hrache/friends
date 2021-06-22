@@ -39,13 +39,13 @@ class SearchFindController extends Controller
             $pending = auth()->user()->pending()->get()->makeHidden([
                 'profile_photo_url', 'current_team_id', 'created_at', 'updated_at'
             ]);
-            $pendingBy = auth()->user()->pendingBy()->get()->makeHidden([
+            $requested = auth()->user()->requested()->get()->makeHidden([
                 'profile_photo_url', 'current_team_id', 'created_at', 'updated_at'
             ]);
 
             $friends = $friends->merge($friendsBy);
             $friends = $friends->merge($pending);
-            $friends = $friends->merge($pendingBy);
+            $friends = $friends->merge($requested);
 
             foreach ($friends as $friend) {
                 $userids[] = $friend->user_id !== auth()->user()->id? $friend->user_id: $friend->friend_id;

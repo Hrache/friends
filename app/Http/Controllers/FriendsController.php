@@ -23,8 +23,8 @@ class FriendsController extends Controller
 
         return Inertia::render('Friends', [
             "friends" => $friends,
-            'pending' => auth()->user()->pending()->with('user')->get(),
-            'pendingBy' => auth()->user()->pendingBy()->with('by_user')->get()
+            'pending' => auth()->user()->pending()->with('by_user')->get(),
+            'requested' => auth()->user()->requested()->with('user')->get()
         ]);
     }
 
@@ -42,7 +42,7 @@ class FriendsController extends Controller
 
         if ($friend->saveOrFail()) {
             $this->message = [
-                'success' => "Congratulations you've successfuly friended {$friend->user->name} {$friend->user->surname}"
+                'success' => "Congratulations you've successfully friended {$friend->user->name} {$friend->user->surname}"
             ];
         } else {
             $this->message = [
@@ -63,7 +63,20 @@ class FriendsController extends Controller
             'frid' => 'required|integer'
         ]);
 
+        $friend = Friend::where('id', request()->frid)->with('user')->first();
+        $friend->status = Friend::STATUS_REJECTED;
 
+        if ($friend->saveOrFail()) {
+            $this->message = [
+                'success' => "Friend request have been rejected successfuly {$friend->user->name} {$friend->user->surname}"
+            ];
+        } else {
+            $this->message = [
+                'failed' => "Failed to friend with {$friend->user->name} {$friend->user->surname}"
+            ];
+        }
+
+        return back()->with($this->message);
     }
 
     /**
@@ -84,19 +97,43 @@ class FriendsController extends Controller
             $this->message = ['failed' => 'Failed to do friend request, try again.'];
         }
         else {
-            $this->message = ['success' => 'Your request have been sent successfuly.'];
+            $this->message = ['success' => 'Your request have been sent successfully.'];
         }
 
         return response()->json($this->message);
     }
 
+    /**
+     * Cancels friend request of own
+     *
+     * @param int $cancel The id of the request in the Friend model
+     */
+    public function cancel($cancel)
+    {
+        $friend = Friend::whereId($cancel)->first();
+
+        if (!$friend->delete()) {
+            $this->message = ['failed' => 'Failed to cancel the request'];
+        }
+        else {
+            $this->message = ['success' => 'Canceled the request successfully'];
+        }
+
+        return back()->with($this->message);
+    }
+
+    /**
+     * Deletes friend from the friends list
+     *
+     * @param int $friend The id of the friend in the Friend model
+     */
     public function delete($friend)
     {
         if (!Friend::whereId($friend)->first()->delete()) {
             $this->message = ['failed' => 'Could not unfriend'];
         }
         else {
-            $this->message = ['success' => 'The friend have been removed successfuly!'];
+            $this->message = ['success' => 'The friend have been removed successfully!'];
         }
 
         return back()->with($this->message);
