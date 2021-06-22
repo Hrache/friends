@@ -12,20 +12,34 @@ class FriendsController extends Controller
 
     public function index()
     {
-        $friends = auth()->user()->friends()->with('user')->get()->makeHidden([
-            'profile_photo_url', 'current_team_id', 'created_at', 'updated_at'
-        ]);
-        $friends = $friends->merge(
-            auth()->user()->friendsTo()->with('by_user')->get()->makeHidden([
-                'profile_photo_url', 'current_team_id', 'created_at', 'updated_at'
-            ])
-        );
-
         return Inertia::render('Friends', [
-            "friends" => $friends,
+            "friends" => auth()->user()->allFriends(),
             'pending' => auth()->user()->pending()->with('by_user')->get(),
             'requested' => auth()->user()->requested()->with('user')->get()
         ]);
+    }
+
+    /**
+     * Requests for a friendship
+     */
+    public function request()
+    {
+        $validity = request()->validate([
+            'uac' => 'required|integer'
+        ]);
+        $newFriend = new Friend();
+        $newFriend->user_id = auth()->user()->id;
+        $newFriend->friend_id = request()->uac;
+        $newFriend->status = Friend::STATUS_PENDING;
+
+        if (!$newFriend->save()) {
+            $this->message = ['failed' => 'Failed to do friend request, try again.'];
+        }
+        else {
+            $this->message = ['success' => 'Your request have been sent successfully.'];
+        }
+
+        return response()->json($this->message);
     }
 
     /**
@@ -55,7 +69,6 @@ class FriendsController extends Controller
 
     /**
      * Reject friend request
-     *
      */
     public function reject()
     {
@@ -80,31 +93,7 @@ class FriendsController extends Controller
     }
 
     /**
-     * Does request for a friendship
-     *
-     */
-    public function friendRequest()
-    {
-        $validity = request()->validate([
-            'uac' => 'required|integer'
-        ]);
-        $newFriend = new Friend();
-        $newFriend->user_id = auth()->user()->id;
-        $newFriend->friend_id = request()->uac;
-        $newFriend->status = Friend::STATUS_PENDING;
-
-        if (!$newFriend->save()) {
-            $this->message = ['failed' => 'Failed to do friend request, try again.'];
-        }
-        else {
-            $this->message = ['success' => 'Your request have been sent successfully.'];
-        }
-
-        return response()->json($this->message);
-    }
-
-    /**
-     * Cancels friend request of own
+     * Cancels friend request
      *
      * @param int $cancel The id of the request in the Friend model
      */
@@ -137,5 +126,45 @@ class FriendsController extends Controller
         }
 
         return back()->with($this->message);
+    }
+
+    /**
+     * Search for a friend
+     */
+    public function search()
+    {
+        $toSearch = request()->toSearch;
+        $people = User::where('name', 'like', "%".$toSearch."%")
+                    ->orWhere('surname', 'like', "%".$toSearch."%");
+        $people = $people->get([
+            'id', 'name', 'surname'
+        ])->makeHidden('profile_photo_url');
+
+        if ($people->count()) {
+            $people = $people->filter(function ($value, $key) {
+                return $value->id != auth()->user()->id;
+            });
+
+            $userids = [];
+
+            $friends = auth()->user()->allFriends();
+
+            foreach ($friends as $friend) {
+                $userids[] = $friend->user_id !== auth()->user()->id? $friend->user_id: $friend->friend_id;
+            }
+
+            unset($friends);
+
+            $people = $people->filter(function ($value, $key) use ($userids) {
+                return in_array($value->id, $userids);
+            });
+        }
+
+        $people = $people->values()? $people->values(): $people;
+
+        return response()->json([
+            "people" => $people,
+            'searchQuery' => request()->toSearch
+        ]);
     }
 }

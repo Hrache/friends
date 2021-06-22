@@ -273,6 +273,10 @@
             logout() {
                 this.$inertia.post(route('logout'));
             },
+        },
+
+        mounted() {
+            this.$forceUpdate();
         }
     }
 </script>

@@ -39,9 +39,15 @@
                 </div>
             </div>
             <div class="text-gray-400 text-2xl font-bold max-w-7xl mx-auto sm:px-6 lg:px-8" v-else>
-                No pending requests and requested
+                No pending requests
             </div>
         </div>
+
+        <section class="pt-6">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 w-full">
+                <FriendSearch :searchurl="route('friends.search')" />
+            </div>
+        </section>
 
         <div class="pt-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -51,7 +57,8 @@
                             v-for="(friend, key) in friends"
                             :friend="friend"
                             unfriendurl="friends/{{ friend.id }}/delete"
-                            :key="key" />
+                            :key="key"
+                        />
                     </friends-list>
 
                     <div v-else class="sm:p-2 text-2xl lg:p-4 md:p-4">
@@ -69,6 +76,7 @@
     import FriendsListItem from './Chips/FriendsListItem'
     import Pending from './Chips/Pending'
     import Requested from './Chips/Requested'
+    import FriendSearch from "./Chips/FriendSearch";
 
     export default {
         components: {
@@ -76,7 +84,8 @@
             FriendsList,
             FriendsListItem,
             Pending,
-            Requested
+            Requested,
+            FriendSearch
         },
 
         data() {

@@ -9,11 +9,6 @@ use Inertia\Inertia;
 
 class SearchFindController extends Controller
 {
-    public function searchFriend()
-    {
-
-    }
-
     public function searchPeople()
     {
         $toSearch = request()->toSearch;
