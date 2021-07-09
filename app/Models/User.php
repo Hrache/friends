@@ -72,12 +72,12 @@ class User extends Authenticatable
     public function allFriends()
     {
         $friends = $this->friends()->with('user')->get()->makeHidden([
-            'profile_photo_url', 'current_team_id', 'created_at', 'updated_at'
+            'current_team_id', 'created_at', 'updated_at'
         ]);
 
         $friends = $friends->merge(
             $this->friendsTo()->with('by_user')->get()->makeHidden([
-                'profile_photo_url', 'current_team_id', 'created_at', 'updated_at'
+                'current_team_id', 'created_at', 'updated_at'
             ])
         );
 

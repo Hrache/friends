@@ -20,6 +20,10 @@
                                 <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </jet-nav-link>
+
+                                <jet-nav-link :href="route('friends.index')" :active="route().current('friends.index')">
+                                    Friends
+                                </jet-nav-link>
                             </div>
                         </div>
 
@@ -83,8 +87,11 @@
                             <div class="ml-3 relative">
                                 <jet-dropdown align="right" width="48">
                                     <template #trigger>
-                                        <button v-if="$page.props.jetstream.managesProfilePhotos" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                        <button v-if="$page.props.jetstream.managesProfilePhotos" class="flex flex-col text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
                                             <img class="h-8 w-8 rounded-full object-cover" :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name" />
+                                            <div>
+                                                <strong>{{ $page.props.user.name }}</strong>
+                                            </div>
                                         </button>
 
                                         <span v-else class="inline-flex rounded-md">
@@ -110,10 +117,6 @@
 
                                         <jet-dropdown-link :href="route('api-tokens.index')" v-if="$page.props.jetstream.hasApiFeatures">
                                             API Tokens
-                                        </jet-dropdown-link>
-
-                                        <jet-dropdown-link :href="route('friends.index')">
-                                            Friends
                                         </jet-dropdown-link>
 
                                         <div class="border-t border-gray-100"></div>
@@ -167,7 +170,7 @@
                                 Profile
                             </jet-responsive-nav-link>
 
-                            <jet-responsive-nav-link :href="route('friends.index')">
+                            <jet-responsive-nav-link :href="route('friends.index')" :active="route().current('friends.index')">
                                 Friends
                             </jet-responsive-nav-link>
 
@@ -275,11 +278,8 @@
             },
         },
 
-        beforeMount() {
-            let self = this;
-            this.$nextTick(function() {
-                this.$forceUpdate();
-            });
+        mounted() {
+            this.$forceUpdate();
         }
     }
 </script>

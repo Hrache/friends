@@ -7,16 +7,14 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Models\User;
 use Inertia\Inertia;
 
-class SearchFindController extends Controller
-{
-    public function searchPeople()
-    {
+class SearchFindController extends Controller {
+
+    public function searchPeople() {
+
         $toSearch = request()->toSearch;
         $people = User::where('name', 'like', "%".$toSearch."%")
-                    ->orWhere('surname', 'like', "%".$toSearch."%");
-        $people = $people->get([
-            'id', 'name', 'surname'
-        ])->makeHidden('profile_photo_url');
+                    ->orWhere('surname', 'like', "%".$toSearch."%")
+                    ->get(['id', 'name', 'surname']);
 
         if ($people->count() && isset(auth()->user()->id)) {
             $people = $people->filter(function ($value, $key) {
@@ -26,16 +24,16 @@ class SearchFindController extends Controller
             $userids = [];
 
             $friends = auth()->user()->friends()->get()->makeHidden([
-                'profile_photo_url', 'current_team_id', 'created_at', 'updated_at'
+                'current_team_id', 'created_at', 'updated_at'
             ]);
             $friendsBy = auth()->user()->friendsTo()->get()->makeHidden([
-                'profile_photo_url', 'current_team_id', 'created_at', 'updated_at'
+                'current_team_id', 'created_at', 'updated_at'
             ]);
             $pending = auth()->user()->pending()->get()->makeHidden([
-                'profile_photo_url', 'current_team_id', 'created_at', 'updated_at'
+                'current_team_id', 'created_at', 'updated_at'
             ]);
             $requested = auth()->user()->requested()->get()->makeHidden([
-                'profile_photo_url', 'current_team_id', 'created_at', 'updated_at'
+                'current_team_id', 'created_at', 'updated_at'
             ]);
 
             $friends = $friends->merge($friendsBy);

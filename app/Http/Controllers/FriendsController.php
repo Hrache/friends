@@ -138,7 +138,7 @@ class FriendsController extends Controller
                     ->orWhere('surname', 'like', "%".$toSearch."%");
         $people = $people->get([
             'id', 'name', 'surname'
-        ])->makeHidden('profile_photo_url');
+        ]);
 
         if ($people->count()) {
             $people = $people->filter(function ($value, $key) {

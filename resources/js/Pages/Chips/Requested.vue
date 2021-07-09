@@ -1,13 +1,17 @@
 <template>
-    <section class="pt-1">
-        <header class="py-1">
-            <span class="p-1">{{ getName() }}</span> <span class="p-1">{{ getSurname() }}</span>
-        </header>
-        <button type="button" class="button px-2 text-sm bg-green-500 text-white text-bold" @click.once="cancel()">Cancel</button>
+    <section class="flex w-full gap-2">
+        <ProfilePhoto :friend="request.user_id === $page.props.user.id? request.user: request.by_user" :name="getName()" />
+
+        <div class="p-1 py-4">
+            <div>{{ getName() }} {{ getSurname() }}</div>
+            <button type="button" class="button px-2 text-sm bg-green-500 text-white text-bold" @click.once="cancel()">Cancel</button>
+        </div>
     </section>
 </template>
 
 <script>
+import ProfilePhoto from './ProfilePhoto'
+
 export default {
     name: "Pending",
 
@@ -20,6 +24,10 @@ export default {
             type: String,
             required: true
         }
+    },
+    
+    components: {
+        ProfilePhoto
     },
 
     data() {

@@ -18,7 +18,7 @@
                 </div>
 
                 <div v-show="pendings" class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4 mb-4">
-                    <section v-if="pending && pending.length">
+                    <section v-if="pending && pending.length" class="space-y-2">
                         <Pending
                             v-for="(request, key) in pending" :key="key"
                             :request="request"
@@ -27,12 +27,12 @@
                         />
                     </section>
 
-                    <section v-if="requested && requested.length">
+                    <section v-if="requested && requested.length" class="space-y-2">
                         <Requested
                             v-for="(request, key) in requested" :key="key"
                             :request="request"
                             :cancelurl="route('friends.cancel', {
-                                'cancel': request.id
+                                cancel: request.id
                             })"
                         />
                     </section>
@@ -113,6 +113,10 @@
             togglePendings: function() {
                 this.pendings = !this.pendings
             }
+        },
+
+        mounted() {
+            this.$forceUpdate()
         }
     }
 </script>
